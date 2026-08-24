@@ -28,7 +28,7 @@ export default function Contact() {
             </h2>
 
             <form
-              netlify
+              data-netlify="true"
               name="contact"
               method="POST"
               action="/success"
