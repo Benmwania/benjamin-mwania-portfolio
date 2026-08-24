@@ -26,12 +26,11 @@ export default function Contact() {
             <h2 className="text-2xl font-bold mb-6">
               Send Me a <span className="text-cyber-green">Message</span>
             </h2>
-            
+
             <form
+              netlify
               name="contact"
               method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
               action="/success"
               className="space-y-5"
             >
