@@ -24,6 +24,7 @@ export default function Contact() {
               Send Me a <span className="text-cyber-green">Message</span>
             </h2>
 
+            {/* Netlify Static Form - This WILL work */}
             <form
               name="contact"
               method="POST"
@@ -123,6 +124,7 @@ export default function Contact() {
             </form>
           </div>
 
+          {/* Right side - same as before */}
           <div>
             <h2 className="text-2xl font-bold mb-6">
               Contact <span className="text-cyber-green">Information</span>
