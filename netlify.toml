@@ -5,7 +5,4 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Disable the automatic Next.js plugin
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-  enabled = false
+# Don't include the plugin at all - let Netlify use its default
