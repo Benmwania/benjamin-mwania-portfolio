@@ -6,7 +6,6 @@ export default function Contact() {
     <main>
       <Navbar />
 
-      {/* Hero Section */}
       <section className="px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
@@ -18,36 +17,29 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Content */}
       <section className="px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-          {/* Left - Contact Form */}
           <div className="bg-cyber-card p-8 rounded-lg border border-cyber-border">
             <h2 className="text-2xl font-bold mb-6">
               Send Me a <span className="text-cyber-green">Message</span>
             </h2>
 
-            {/* IMPORTANT: This is a standard HTML form with netlify attribute */}
             <form
               name="contact"
               method="POST"
               data-netlify="true"
-              data-netlify-honeypot="bot-field"
+              netlify-honeypot="bot-field"
               action="/success"
               className="space-y-5"
             >
-              {/* Hidden fields required by Netlify */}
               <input type="hidden" name="form-name" value="contact" />
               <input type="hidden" name="redirect" value="/success" />
-
-              {/* Honeypot field - hidden from humans */}
               <p className="hidden">
                 <label>
                   Don't fill this out if you're human: <input name="bot-field" />
                 </label>
               </p>
 
-              {/* Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-cyber-gray mb-1">
                   Full Name *
@@ -62,7 +54,6 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-cyber-gray mb-1">
                   Email Address *
@@ -77,7 +68,6 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Phone */}
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-cyber-gray mb-1">
                   Phone Number
@@ -91,7 +81,6 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Subject */}
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-cyber-gray mb-1">
                   Subject *
@@ -111,7 +100,6 @@ export default function Contact() {
                 </select>
               </div>
 
-              {/* Message */}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-cyber-gray mb-1">
                   Message *
@@ -126,7 +114,6 @@ export default function Contact() {
                 ></textarea>
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 className="w-full bg-cyber-green text-cyber-dark font-semibold py-3 rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.3)] transition-all duration-300"
@@ -136,7 +123,6 @@ export default function Contact() {
             </form>
           </div>
 
-          {/* Right - Contact Info */}
           <div>
             <h2 className="text-2xl font-bold mb-6">
               Contact <span className="text-cyber-green">Information</span>
@@ -145,7 +131,6 @@ export default function Contact() {
               Prefer to reach out directly? Here's how you can get in touch.
             </p>
 
-            {/* Contact Cards */}
             <div className="space-y-4">
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border">
                 <div className="flex items-center gap-4">
@@ -222,7 +207,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Footer CTA */}
       <section className="px-4 sm:px-6 lg:px-8 py-16 text-center bg-cyber-card/50">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold mb-4">
