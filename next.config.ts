@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: 'standalone',
+  experimental: {
+    // Required for Netlify Forms with Next.js 16
+  },
+}
 
-export default nextConfig;
+export default nextConfig

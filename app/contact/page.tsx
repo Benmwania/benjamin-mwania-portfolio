@@ -1,7 +1,40 @@
+'use client'
+
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setIsSubmitting(true)
+    setStatus('idle')
+
+    const formData = new FormData(event.currentTarget)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        event.currentTarget.reset()
+        window.location.href = '/success'
+      } else {
+        setStatus('error')
+      }
+    } catch (error) {
+      setStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <main>
       <Navbar />
@@ -27,22 +60,7 @@ export default function Contact() {
               Send Me a <span className="text-cyber-green">Message</span>
             </h2>
 
-            <form
-              data-netlify="true"
-              name="contact"
-              method="POST"
-              action="/success"
-              className="space-y-5"
-            >
-              {/* Netlify form fields */}
-              <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="redirect" value="/success" />
-              <p className="hidden">
-                <label>
-                  Don't fill this out if you're human: <input name="bot-field" />
-                </label>
-              </p>
-
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-cyber-gray mb-1">
@@ -125,14 +143,31 @@ export default function Contact() {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-cyber-green text-cyber-dark font-semibold py-3 rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.3)] transition-all duration-300"
+                disabled={isSubmitting}
+                className={`w-full font-semibold py-3 rounded-lg transition-all duration-300 ${
+                  isSubmitting
+                    ? 'bg-cyber-gray text-cyber-dark cursor-not-allowed'
+                    : 'bg-cyber-green text-cyber-dark hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]'
+                }`}
               >
-                Send Message 🚀
+                {isSubmitting ? 'Sending...' : 'Send Message 🚀'}
               </button>
+
+              {/* Status Messages */}
+              {status === 'success' && (
+                <div className="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 rounded-lg text-sm">
+                  ✅ Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              {status === 'error' && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg text-sm">
+                  ❌ Failed to send message. Please try again or contact me directly via email.
+                </div>
+              )}
             </form>
           </div>
 
-          {/* Right - Contact Info */}
+          {/* Right - Contact Info - Same as before */}
           <div>
             <h2 className="text-2xl font-bold mb-6">
               Contact <span className="text-cyber-green">Information</span>
@@ -141,9 +176,7 @@ export default function Contact() {
               Prefer to reach out directly? Here's how you can get in touch.
             </p>
 
-            {/* Contact Cards */}
             <div className="space-y-4">
-              {/* Name */}
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border">
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">👤</div>
@@ -154,57 +187,42 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Phone */}
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border hover:border-cyber-green transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">📞</div>
                   <div>
                     <p className="text-sm text-cyber-gray">Phone</p>
-                    <a
-                      href="tel:+254791182260"
-                      className="font-semibold hover:text-cyber-green transition-colors"
-                    >
+                    <a href="tel:+254791182260" className="font-semibold hover:text-cyber-green transition-colors">
                       +254 791 182 260
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Email */}
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border hover:border-cyber-green transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">✉️</div>
                   <div>
                     <p className="text-sm text-cyber-gray">Email</p>
-                    <a
-                      href="mailto:mwaniabenjamin210@gmail.com"
-                      className="font-semibold hover:text-cyber-green transition-colors break-all"
-                    >
+                    <a href="mailto:mwaniabenjamin210@gmail.com" className="font-semibold hover:text-cyber-green transition-colors break-all">
                       mwaniabenjamin210@gmail.com
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* GitHub */}
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border hover:border-cyber-green transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">🐙</div>
                   <div>
                     <p className="text-sm text-cyber-gray">GitHub</p>
-                    <a
-                      href="https://github.com/Benmwania"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold hover:text-cyber-green transition-colors"
-                    >
+                    <a href="https://github.com/Benmwania" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-cyber-green transition-colors">
                       github.com/Benmwania
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Location */}
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border">
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">📍</div>
@@ -216,26 +234,16 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Quick Links */}
             <div className="mt-8">
               <h3 className="font-semibold mb-4">Quick Links</h3>
               <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/projects"
-                  className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors"
-                >
+                <Link href="/projects" className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors">
                   View Projects
                 </Link>
-                <Link
-                  href="/cctv"
-                  className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors"
-                >
+                <Link href="/cctv" className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors">
                   CCTV Services
                 </Link>
-                <a
-                  href="/Benjamin_Mwania_Resume.pdf"
-                  className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors"
-                >
+                <a href="/Benjamin_Mwania_Resume.pdf" className="text-sm bg-cyber-card px-4 py-2 rounded-lg border border-cyber-border hover:border-cyber-green transition-colors">
                   📄 Download Resume
                 </a>
               </div>
@@ -254,16 +262,10 @@ export default function Contact() {
             Whether it's cybersecurity, CCTV installation, or IT support — I'm here to help.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="tel:+254791182260"
-              className="px-6 py-2 bg-cyber-green text-cyber-dark font-semibold rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.3)] transition-all duration-300"
-            >
+            <a href="tel:+254791182260" className="px-6 py-2 bg-cyber-green text-cyber-dark font-semibold rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.3)] transition-all duration-300">
               📞 Call Now
             </a>
-            <a
-              href="mailto:mwaniabenjamin210@gmail.com"
-              className="px-6 py-2 border border-cyber-gray text-cyber-gray rounded-lg hover:border-cyber-green hover:text-cyber-green transition-all duration-300"
-            >
+            <a href="mailto:mwaniabenjamin210@gmail.com" className="px-6 py-2 border border-cyber-gray text-cyber-gray rounded-lg hover:border-cyber-green hover:text-cyber-green transition-all duration-300">
               ✉️ Email Me
             </a>
           </div>
