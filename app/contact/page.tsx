@@ -1,40 +1,7 @@
-'use client'
-
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setStatus('idle')
-
-    const formData = new FormData(event.currentTarget)
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        body: formData,
-      })
-
-      if (response.ok) {
-        setStatus('success')
-        event.currentTarget.reset()
-        window.location.href = '/success'
-      } else {
-        setStatus('error')
-      }
-    } catch (error) {
-      setStatus('error')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   return (
     <main>
       <Navbar />
@@ -60,7 +27,26 @@ export default function Contact() {
               Send Me a <span className="text-cyber-green">Message</span>
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            {/* IMPORTANT: This is a standard HTML form with netlify attribute */}
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              action="/success"
+              className="space-y-5"
+            >
+              {/* Hidden fields required by Netlify */}
+              <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="redirect" value="/success" />
+
+              {/* Honeypot field - hidden from humans */}
+              <p className="hidden">
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
+
               {/* Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-cyber-gray mb-1">
@@ -143,31 +129,14 @@ export default function Contact() {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className={`w-full font-semibold py-3 rounded-lg transition-all duration-300 ${
-                  isSubmitting
-                    ? 'bg-cyber-gray text-cyber-dark cursor-not-allowed'
-                    : 'bg-cyber-green text-cyber-dark hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]'
-                }`}
+                className="w-full bg-cyber-green text-cyber-dark font-semibold py-3 rounded-lg hover:shadow-[0_0_30px_rgba(0,255,136,0.3)] transition-all duration-300"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message 🚀'}
+                Send Message 🚀
               </button>
-
-              {/* Status Messages */}
-              {status === 'success' && (
-                <div className="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 rounded-lg text-sm">
-                  ✅ Message sent successfully! I'll get back to you soon.
-                </div>
-              )}
-              {status === 'error' && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg text-sm">
-                  ❌ Failed to send message. Please try again or contact me directly via email.
-                </div>
-              )}
             </form>
           </div>
 
-          {/* Right - Contact Info - Same as before */}
+          {/* Right - Contact Info */}
           <div>
             <h2 className="text-2xl font-bold mb-6">
               Contact <span className="text-cyber-green">Information</span>
@@ -176,6 +145,7 @@ export default function Contact() {
               Prefer to reach out directly? Here's how you can get in touch.
             </p>
 
+            {/* Contact Cards */}
             <div className="space-y-4">
               <div className="bg-cyber-card p-4 rounded-lg border border-cyber-border">
                 <div className="flex items-center gap-4">
